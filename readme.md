@@ -14,4 +14,17 @@ Then, as long as you are in the same network,
 you should be able to ""control"" your PC from a mobile device,
 or a laptop, or a fridge if it has a browser.
 
+#### Warning
+
+Obvious warning, but **only use this if your PC is in a trusted, private network**.
+
 ![Example screenshot](https://raw.githubusercontent.com/j4rv/remotecontrol/master/images/screenshot.png)
+
+#### TODOs
+
+- [x] Volume control
+- [x] Timed shutdowns
+- [ ] Prettier interface
+- [ ] Improve security
+- [ ] Mouse control
+- [ ] Keyboard control
