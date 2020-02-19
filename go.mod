@@ -1,4 +1,4 @@
-module j4rv.remotecontrol
+module github.com/j4rv/remotecontrol
 
 go 1.12
 
