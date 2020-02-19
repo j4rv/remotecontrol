@@ -32,6 +32,7 @@ func printIPs() {
 
 // httpStart executes the ListenAndServe command
 func httpStart() {
+	log.Println("Starting http server...")
 	err := http.ListenAndServe(":80", nil)
 	if err != nil {
 		log.Fatal(err)
