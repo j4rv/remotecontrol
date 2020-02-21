@@ -18,7 +18,7 @@ or a laptop, or a fridge if it has a browser.
 
 Obvious warning, but **only use this if your PC is in a trusted, private network**.
 
-![Example screenshot](https://raw.githubusercontent.com/j4rv/remotecontrol/master/images/screenshot.png)
+![Example screenshot](https://raw.githubusercontent.com/j4rv/remotecontrol/master/images/screenshot.jpg)
 
 #### TODOs
 
