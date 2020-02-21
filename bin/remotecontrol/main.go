@@ -16,9 +16,18 @@ func main() {
 
 // printIPs Prints the device's IPs. For convenience.
 func printIPs() {
-	ifaces, _ := net.Interfaces()
+	ifaces, err := net.Interfaces()
+	if err != nil {
+		log.Println("Error while retrieving the network interfaces:", err)
+		return
+	}
+
 	for _, i := range ifaces {
-		addrs, _ := i.Addrs()
+		addrs, err := i.Addrs()
+		if err != nil {
+			log.Println("Error while retrieving an interface address:", err)
+			continue
+		}
 		for _, addr := range addrs {
 			switch v := addr.(type) {
 			case *net.IPNet:
@@ -33,10 +42,17 @@ func printIPs() {
 // httpStart executes the ListenAndServe command
 func httpStart() {
 	log.Println("Starting http server...")
-	err := http.ListenAndServe(":80", nil)
+	err := http.ListenAndServe(":80", logRequest(http.DefaultServeMux))
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func logRequest(handler http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("[%s] %s\n", r.RemoteAddr, r.URL)
+		handler.ServeHTTP(w, r)
+	})
 }
 
 // initIndex handles the root page
@@ -45,7 +61,7 @@ func initIndex() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		err := tmpl.Execute(w, nil)
 		if err != nil {
-			log.Print("Error while executing the template: ", err)
+			log.Print("Error while executing the template:", err)
 		}
 	})
 }
@@ -60,6 +76,15 @@ func initActionHandlers() {
 	})
 	http.HandleFunc("/silence", func(w http.ResponseWriter, r *http.Request) {
 		logIfError(silence())
+	})
+	http.HandleFunc("/nextSong", func(w http.ResponseWriter, r *http.Request) {
+		logIfError(nextSong())
+	})
+	http.HandleFunc("/prevSong", func(w http.ResponseWriter, r *http.Request) {
+		logIfError(prevSong())
+	})
+	http.HandleFunc("/pauseSong", func(w http.ResponseWriter, r *http.Request) {
+		logIfError(pauseSong())
 	})
 
 	// Keep it simple, stupid. No generic way to call "shutdown(x)" from outside.

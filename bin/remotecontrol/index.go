@@ -10,10 +10,17 @@ const indexTmpl = `
 	<style>
 		* {
 			text-align: center;
+			font-family: arial,sans-serif;
 		}
 
 		body {
 			background: #112024;
+		}
+
+		h2 {
+			font-size: 2em;
+			color: white;
+			margin-bottom: 0;
 		}
 
 		button {
@@ -21,6 +28,7 @@ const indexTmpl = `
 			margin: 0.5em;
 			padding: 0.5em;
 			border-radius: 6px;
+			min-width: 3em;
 			background: #1e7eb0;
 			color: white;
 			border: none;
@@ -60,18 +68,29 @@ const indexTmpl = `
 </head>
 
 <body>
+	<h2>Volume</h2>
 	<div>
-		<button onclick="Do('volumeUp')">Volume up</button>
-		<button onclick="Do('volumeDown')">Volume down</button>
-		<button onclick="Do('silence')">Silence</button>
+		<button onclick="Do('volumeUp')">🔊</button>
+		<button onclick="Do('volumeDown')">🔉</button>
+		<button onclick="Do('silence')">🔇</button>
 	</div>
+
+	<h2>Tracks</h2>
 	<div>
-		<button onclick="Do('shutdown1m')">Shutdown in 1 minute</button>
-		<button onclick="Do('shutdown30m')">Shutdown in 30 minutes</button>
-		<button onclick="Do('shutdown60m')">Shutdown in 60 minutes</button>
-		<button onclick="Do('shutdown120m')">Shutdown in 120 minutes</button>
+		<button onclick="Do('prevSong')">⏮️</button>
+		<button onclick="Do('pauseSong')">⏯️</button>
+		<button onclick="Do('nextSong')">⏭️</button>
+	</div>
+
+	<h2>Delayed shutdowns</h2>
+	<div>
+		<button onclick="Do('shutdown1m')">Shutdown 1m</button>
+		<button onclick="Do('shutdown30m')">Shutdown 30m</button>
+		<button onclick="Do('shutdown60m')">Shutdown 1h</button>
+		<button onclick="Do('shutdown120m')">Shutdown 2h</button>
 		<button onclick="Do('abortShutdown')">Abort shutdown</button>
 	</div>
+
 	<script>
 		function Do(action) {
 			fetch(action)
