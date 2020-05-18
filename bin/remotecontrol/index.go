@@ -15,16 +15,16 @@ const indexTmpl = `
 
 		body {
 			background: #112024;
+			font-size: 2em;
 		}
 
 		h2 {
-			font-size: 2em;
 			color: white;
 			margin-bottom: 0;
 		}
 
 		button {
-			font-size: 2em;
+			font-size: 1.5em;
 			margin: 0.5em;
 			padding: 0.5em;
 			border-radius: 6px;
@@ -43,27 +43,7 @@ const indexTmpl = `
 		button:active {
 			box-shadow: 0 2px 4px #00000087;
 		}
-
-		@media only screen
-		and (-webkit-min-device-pixel-ratio: 2) {
-			body {
-				font-size: large;
-			}
-		}
-
-		@media only screen
-		and (-webkit-min-device-pixel-ratio: 3) {
-			body {
-				font-size: x-large;
-			}
-		}
-
-		@media only screen
-		and (-webkit-min-device-pixel-ratio: 4) {
-			body {
-				font-size: xx-large;
-			}
-		}
+		
 	</style>
 </head>
 

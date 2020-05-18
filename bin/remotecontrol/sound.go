@@ -1,13 +1,14 @@
 package main
 
 import (
-	"github.com/micmonay/keybd_event"
 	"runtime"
 	"time"
+
+	"github.com/micmonay/keybd_event"
 )
 
 //===================================================================
-// These functions should be compatible with Windows, Linux and Mac.
+// These functions should be compatible with Windows, Linux (and Mac?).
 // I have only tested it on Windows though.
 //===================================================================
 
