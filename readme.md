@@ -26,5 +26,6 @@ Obvious warning, but **only use this if your PC is in a trusted, private network
 - [x] Timed shutdowns
 - [ ] Prettier interface
 - [ ] Improve security
-- [ ] Mouse control
-- [ ] Keyboard control
+- [x] Mouse control (simple trackpad)
+- [x] Keyboard control (navigation)
+- [ ] Keyboard control (text input)
