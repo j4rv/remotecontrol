@@ -52,8 +52,34 @@ const indexTmpl = `
 			flex-grow: 2;
 		}
 
+		.specialKeysContainer {
+			margin: 0.5em;
+			display: grid;
+			grid-template-columns: auto auto auto;
+			grid-gap: 0.5em;
+			max-width: 800px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+		.specialKey {
+			margin: 0;
+			padding: 0;
+			padding-top: 100%;
+			position: relative;
+		}
+
+		.specialKeyText {
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+			padding-top: 36%; /*hacky vertical center*/
+		}
+
 		.mouseButtonContainer {
-			display:flex;
+			display: flex;
 			max-width: 800px;
 			margin-left: auto;
 			margin-right: auto;
@@ -88,27 +114,39 @@ const indexTmpl = `
 </head>
 
 <body>
-	<h2>Volume</h2>
+	<h2>Sound and music</h2>
 	<div>
 		<button onclick="Do('volumeUp')">🔊</button>
 		<button onclick="Do('volumeDown')">🔉</button>
 		<button onclick="Do('silence')">🔇</button>
 	</div>
-
-	<h2>Tracks</h2>
 	<div>
 		<button onclick="Do('prevSong')">⏮️</button>
 		<button onclick="Do('pauseSong')">⏯️</button>
 		<button onclick="Do('nextSong')">⏭️</button>
 	</div>
 
-	<h2>Delayed shutdowns</h2>
-	<div>
-		<button onclick="Do('shutdown1m')">Shutdown 1m</button>
-		<button onclick="Do('shutdown30m')">Shutdown 30m</button>
-		<button onclick="Do('shutdown60m')">Shutdown 1h</button>
-		<button onclick="Do('shutdown120m')">Shutdown 2h</button>
-		<button onclick="Do('abortShutdown')">Abort shutdown</button>
+	<h2>Special keys</h2>
+	<div class="specialKeysContainer">
+		<button class="specialKey" onclick="Do('keyEsc')">
+			<div class="specialKeyText">Esc</div> 
+		</button>
+		<button class="specialKey" onclick="Do('keyUp')">
+			<div class="specialKeyText">⬆️</div> 
+		</button>
+		<button class="specialKey" onclick="Do('keyEnter')">
+			<div class="specialKeyText">Enter</div> 
+		</button>
+
+		<button class="specialKey" onclick="Do('keyLeft')">
+			<div class="specialKeyText">⬅️</div> 
+		</button>
+		<button class="specialKey" onclick="Do('keyDown')">
+			<div class="specialKeyText">⬇️</div> 
+		</button>
+		<button class="specialKey" onclick="Do('keyRight')">
+			<div class="specialKeyText">➡️</div> 
+		</button>
 	</div>
 
 	<h2>Mouse trackpad</h2>
@@ -121,6 +159,15 @@ const indexTmpl = `
 		<canvas id="touchpadCanvas" width="800" height="600">
 			Your browser does not support the HTML canvas tag.
 		</canvas>
+	</div>
+
+	<h2>Delayed shutdowns</h2>
+	<div>
+		<button onclick="Do('shutdown1m')">Shutdown 1m</button>
+		<button onclick="Do('shutdown30m')">Shutdown 30m</button>
+		<button onclick="Do('shutdown60m')">Shutdown 1h</button>
+		<button onclick="Do('shutdown120m')">Shutdown 2h</button>
+		<button onclick="Do('abortShutdown')">Abort shutdown</button>
 	</div>
 
 	<script>

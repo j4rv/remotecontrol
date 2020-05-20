@@ -8,6 +8,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/micmonay/keybd_event"
+
 	"github.com/gorilla/websocket"
 )
 
@@ -74,6 +76,10 @@ func initIndex() {
 
 // initActionHandlers handles all available actions that can be called remotely
 func initActionHandlers() {
+	///////////
+	// SOUND //
+	///////////
+
 	http.HandleFunc("/volumeUp", func(w http.ResponseWriter, r *http.Request) {
 		logIfError(volumeUp())
 	})
@@ -93,6 +99,10 @@ func initActionHandlers() {
 		logIfError(pauseSong())
 	})
 
+	///////////////
+	// SHUTDOWNS //
+	///////////////
+
 	// Keep it simple, stupid. No generic way to call "shutdown(x)" from outside.
 	http.HandleFunc("/shutdown1m", func(w http.ResponseWriter, r *http.Request) {
 		logIfError(shutdownInSecs(1 * 60))
@@ -110,6 +120,10 @@ func initActionHandlers() {
 		logIfError(abortShutdown())
 	})
 
+	///////////
+	// MOUSE //
+	///////////
+
 	http.HandleFunc("/mouseMove", handleMouseMove)
 	http.HandleFunc("/leftClick", func(w http.ResponseWriter, r *http.Request) {
 		logIfError(mouseClick("left"))
@@ -119,6 +133,28 @@ func initActionHandlers() {
 	})
 	http.HandleFunc("/rightClick", func(w http.ResponseWriter, r *http.Request) {
 		logIfError(mouseClick("right"))
+	})
+
+	//////////////
+	// KEYBOARD //
+	//////////////
+	http.HandleFunc("/keyEsc", func(w http.ResponseWriter, r *http.Request) {
+		logIfError(keypress(keybd_event.VK_ESC))
+	})
+	http.HandleFunc("/keyEnter", func(w http.ResponseWriter, r *http.Request) {
+		logIfError(keypress(keybd_event.VK_ENTER))
+	})
+	http.HandleFunc("/keyUp", func(w http.ResponseWriter, r *http.Request) {
+		logIfError(keypress(keybd_event.VK_UP))
+	})
+	http.HandleFunc("/keyDown", func(w http.ResponseWriter, r *http.Request) {
+		logIfError(keypress(keybd_event.VK_DOWN))
+	})
+	http.HandleFunc("/keyLeft", func(w http.ResponseWriter, r *http.Request) {
+		logIfError(keypress(keybd_event.VK_LEFT))
+	})
+	http.HandleFunc("/keyRight", func(w http.ResponseWriter, r *http.Request) {
+		logIfError(keypress(keybd_event.VK_RIGHT))
 	})
 
 	http.HandleFunc("/log", func(w http.ResponseWriter, r *http.Request) {
