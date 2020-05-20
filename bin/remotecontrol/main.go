@@ -5,6 +5,10 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"strconv"
+	"strings"
+
+	"github.com/gorilla/websocket"
 )
 
 func main() {
@@ -13,6 +17,8 @@ func main() {
 	initActionHandlers()
 	httpStart()
 }
+
+var upgrader = websocket.Upgrader{} // use default options
 
 // printIPs Prints the device's IPs. For convenience.
 func printIPs() {
@@ -103,6 +109,52 @@ func initActionHandlers() {
 	http.HandleFunc("/abortShutdown", func(w http.ResponseWriter, r *http.Request) {
 		logIfError(abortShutdown())
 	})
+
+	http.HandleFunc("/mouseMove", handleMouseMove)
+	http.HandleFunc("/leftClick", func(w http.ResponseWriter, r *http.Request) {
+		logIfError(mouseClick("left"))
+	})
+	http.HandleFunc("/middleClick", func(w http.ResponseWriter, r *http.Request) {
+		logIfError(mouseClick("center"))
+	})
+	http.HandleFunc("/rightClick", func(w http.ResponseWriter, r *http.Request) {
+		logIfError(mouseClick("right"))
+	})
+
+	http.HandleFunc("/log", func(w http.ResponseWriter, r *http.Request) {
+		msg := r.URL.Query()["msg"]
+		log.Println(msg)
+	})
+
+}
+
+func handleMouseMove(w http.ResponseWriter, r *http.Request) {
+	c, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		log.Print("could not upgrade:", err)
+		return
+	}
+	defer c.Close()
+
+	for {
+		_, msg, err := c.ReadMessage()
+		if err != nil {
+			log.Println("read:", err)
+			break
+		}
+
+		splitMsg := strings.Split(string(msg), ":")
+		x, err := strconv.Atoi(splitMsg[0])
+		logIfError(err)
+		y, err := strconv.Atoi(splitMsg[1])
+		logIfError(err)
+
+		if err != nil {
+			return
+		}
+
+		logIfError(moveMouse(x, y))
+	}
 }
 
 func logIfError(err error) {
