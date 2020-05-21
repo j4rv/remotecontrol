@@ -76,10 +76,10 @@ func initIndex() {
 
 // initActionHandlers handles all available actions that can be called remotely
 func initActionHandlers() {
+
 	///////////
 	// SOUND //
 	///////////
-
 	http.HandleFunc("/volumeUp", func(w http.ResponseWriter, r *http.Request) {
 		logIfError(volumeUp())
 	})
@@ -102,19 +102,13 @@ func initActionHandlers() {
 	///////////////
 	// SHUTDOWNS //
 	///////////////
-
-	// Keep it simple, stupid. No generic way to call "shutdown(x)" from outside.
-	http.HandleFunc("/shutdown1m", func(w http.ResponseWriter, r *http.Request) {
-		logIfError(shutdownInSecs(1 * 60))
-	})
-	http.HandleFunc("/shutdown30m", func(w http.ResponseWriter, r *http.Request) {
-		logIfError(shutdownInSecs(30 * 60))
-	})
-	http.HandleFunc("/shutdown60m", func(w http.ResponseWriter, r *http.Request) {
-		logIfError(shutdownInSecs(60 * 60))
-	})
-	http.HandleFunc("/shutdown120m", func(w http.ResponseWriter, r *http.Request) {
-		logIfError(shutdownInSecs(120 * 60))
+	http.HandleFunc("/shutdown", func(w http.ResponseWriter, r *http.Request) {
+		mins, err := strconv.Atoi(r.URL.Query()["mins"][0])
+		if err != nil {
+			log.Println(err)
+			return
+		}
+		logIfError(shutdownInSecs(mins * 60))
 	})
 	http.HandleFunc("/abortShutdown", func(w http.ResponseWriter, r *http.Request) {
 		logIfError(abortShutdown())
@@ -123,7 +117,6 @@ func initActionHandlers() {
 	///////////
 	// MOUSE //
 	///////////
-
 	http.HandleFunc("/mouseMove", handleMouseMove)
 	http.HandleFunc("/leftClick", func(w http.ResponseWriter, r *http.Request) {
 		logIfError(mouseClick("left"))
@@ -157,6 +150,9 @@ func initActionHandlers() {
 		logIfError(keypress(keybd_event.VK_RIGHT))
 	})
 
+	////////////
+	// OTHERS //
+	////////////
 	http.HandleFunc("/log", func(w http.ResponseWriter, r *http.Request) {
 		msg := r.URL.Query()["msg"]
 		log.Println(msg)
