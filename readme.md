@@ -3,7 +3,9 @@
 Extremely simple implementation or a "Remote controller" for my convenience,
 but Open Source in case it's useful for someone else.
 
-To install it (Requires Go):
+Since this project uses [RobotGo](https://github.com/go-vgo/robotgo), it needs GCC to compile.
+
+To install it (requires Go):
 
 ``go get github.com/j4rv/remotecontrol/bin/remotecontrol``
 
@@ -24,7 +26,7 @@ Obvious warning, but **only use this if your PC is in a trusted, private network
 
 - [x] Volume control
 - [x] Timed shutdowns
-- [ ] Prettier interface
+- [x] Prettier interface
 - [ ] Improve security
 - [x] Mouse control (simple trackpad)
 - [x] Keyboard control (navigation)
