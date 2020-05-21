@@ -32,6 +32,7 @@ const indexTmpl = `
 			padding: 1rem;
 			border-radius: 32px;
 			min-width: 10rem;
+			min-height: 6rem;
 			background: #6d7d84;
 			color: white;
 			border: none;
@@ -91,9 +92,9 @@ const indexTmpl = `
 		<button onclick="Do('silence')"><i class="fas fa-volume-mute"></i></button>
 	</div>
 	<div>
-		<button onclick="Do('prevSong')"><i class="fas fa-fast-backward"></i></button>
-		<button onclick="Do('pauseSong')"><i class="fas fa-play"></i></button>
-		<button onclick="Do('nextSong')"><i class="fas fa-fast-forward"></i></button>
+		<button onclick="Do('prevSong')"><i class="fas fa-sm fa-fast-backward"></i></button>
+		<button onclick="Do('pauseSong')"><i class="fas fa-xs fa-play"></i></button>
+		<button onclick="Do('nextSong')"><i class="fas fa-sm fa-fast-forward"></i></button>
 	</div>
 
 	<h2>Special keys</h2>
