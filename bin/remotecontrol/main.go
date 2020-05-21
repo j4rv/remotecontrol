@@ -117,7 +117,7 @@ func initActionHandlers() {
 	///////////
 	// MOUSE //
 	///////////
-	http.HandleFunc("/mouseMove", handleMouseMove)
+	http.HandleFunc("/mouseMoveWebSocket", handleMouseMoveWebSocket)
 	http.HandleFunc("/leftClick", func(w http.ResponseWriter, r *http.Request) {
 		logIfError(mouseClick("left"))
 	})
@@ -160,7 +160,7 @@ func initActionHandlers() {
 
 }
 
-func handleMouseMove(w http.ResponseWriter, r *http.Request) {
+func handleMouseMoveWebSocket(w http.ResponseWriter, r *http.Request) {
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Print("could not upgrade:", err)

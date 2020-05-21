@@ -7,6 +7,7 @@ const indexTmpl = `
 <head>
 	<meta charset="utf-8">
 	<title>PC Control</title>
+	<script src="https://kit.fontawesome.com/cb96d94f42.js" crossorigin="anonymous"></script>
 	<style>
 		* {
 			text-align: center;
@@ -16,25 +17,34 @@ const indexTmpl = `
 		body {
 			background: #40454d;
 			background: linear-gradient(90deg, #3d4e51 0%, #40454d 5%, #40454d 95%, #2b2a2f 100%);
-			font-size: 2em;
+			font-size: 0;
 		}
 
 		h2 {
+			font-size: 2rem;
 			color: white;
 			margin-bottom: 0;
 		}
 
 		button {
-			font-size: 1.5em;
-			margin: 0.5em;
-			padding: 0.5em;
+			font-size: 3rem;
+			margin: 0.6rem;
+			padding: 1rem;
 			border-radius: 32px;
-			min-width: 3em;
+			min-width: 10rem;
 			background: #6d7d84;
 			color: white;
 			border: none;
 			box-shadow: 0 4px 12px #00000087, inset 2px 4px 0px 2px #6d9799, inset -2px -4px 0px 2px #3d4e51;
 			touch-action: none; /* To disable Zoom by double clicking in touch devices */
+		}
+
+		button:active {
+			box-shadow: 0 2px 4px #00000087, inset 2px 4px 0px 2px #3d4e51, inset -2px -4px 0px 2px #6d9799;
+		}	
+
+		button:hover {
+			background: #576f71;
 		}
 
 		.flexSmall {
@@ -45,106 +55,69 @@ const indexTmpl = `
 			flex-grow: 3;
 		}
 
-		.specialKeysContainer {
-			margin: 0.5em auto;
-			display: grid;
-			grid-template-columns: auto auto auto;
-			grid-gap: 0.5em;
-			max-width: 600px;
-		}
-
 		.specialKey {
-			margin: 0;
-			padding: 100% 0 0 0;
-			position: relative;
-		}
-
-		.specialKeyText {
-			position: absolute;
-			top: 0;
-			left: 0;
-			bottom: 0;
-			right: 0;
-			padding-top: 30%; /*hacky vertical center*/
+			min-height: 8rem;
 		}
 
 		.mouseButtonContainer {
 			display: flex;
-			max-width: 800px;
+			max-width: 80%;
 			margin-left: auto;
 			margin-right: auto;
 		}
 
 		.mouseButton {
-			height: 3em;
-			margin: 0.2em;
+			height: 6rem;
+			margin: 1rem 0 0 0;
 			border-radius: 6px;
 		}
 
 		#touchpadCanvas {
 			background: #111;
-			border-radius: 1em;
+			border-radius: 6px 6px 32px 32px;
 			width: 100%;
 			max-width: 80%;
 			box-shadow: inset 0 4px 2px 4px #00000087;
 		}
 
-		@media(pointer: fine) {
-
-			button:active {
-				box-shadow: 0 2px 4px #00000087, inset 2px 4px 0px 2px #3d4e51, inset -2px -4px 0px 2px #6d9799;
-			}
-			button:hover {
-				background: #576f71;
-			}
-
-		}
-
-		@media(pointer: coarse) {
-
-			button:hover {
-				background: #576f71;
-				box-shadow: 0 2px 4px #00000087, inset 2px 4px 0px 2px #3d4e51, inset -2px -4px 0px 2px #6d9799;
-			}
-
-		}
-		
 	</style>
 </head>
 
 <body>
 	<h2>Sound and music</h2>
 	<div>
-		<button onclick="Do('volumeUp')">🔊</button>
-		<button onclick="Do('volumeDown')">🔉</button>
-		<button onclick="Do('silence')">🔇</button>
+		<button onclick="Do('volumeUp')"><i class="fas fa-volume-up"></i></button>
+		<button onclick="Do('volumeDown')"><i class="fas fa-volume-down"></i></button>
+		<button onclick="Do('silence')"><i class="fas fa-volume-mute"></i></button>
 	</div>
 	<div>
-		<button onclick="Do('prevSong')">⏮️</button>
-		<button onclick="Do('pauseSong')">⏯️</button>
-		<button onclick="Do('nextSong')">⏭️</button>
+		<button onclick="Do('prevSong')"><i class="fas fa-fast-backward"></i></button>
+		<button onclick="Do('pauseSong')"><i class="fas fa-play"></i></button>
+		<button onclick="Do('nextSong')"><i class="fas fa-fast-forward"></i></button>
 	</div>
 
 	<h2>Special keys</h2>
-	<div class="specialKeysContainer">
+	<div>
 		<button class="specialKey" onclick="Do('keyEsc')">
-			<div class="specialKeyText">Esc</div> 
+			Esc
 		</button>
 		<button class="specialKey" onclick="Do('keyUp')">
-			<div class="specialKeyText">⬆️</div> 
+			<i class="fas fa-arrow-up"></i>
 		</button>
 		<button class="specialKey" onclick="Do('keyEnter')">
-			<div class="specialKeyText">Enter</div> 
+			Enter
 		</button>
+	</div>
 
+	<div>
 		<button class="specialKey" onclick="Do('keyLeft')">
-			<div class="specialKeyText">⬅️</div> 
+			<i class="fas fa-arrow-left"></i>
 		</button>
 		<button class="specialKey" onclick="Do('keyDown')">
-			<div class="specialKeyText">⬇️</div> 
+			<i class="fas fa-arrow-down"></i>
 		</button>
 		<button class="specialKey" onclick="Do('keyRight')">
-			<div class="specialKeyText">➡️</div> 
+			<i class="fas fa-arrow-right"></i>
 		</button>
 	</div>
 
@@ -192,7 +165,7 @@ const indexTmpl = `
 			return uri
 		}
 
-		let mouseMoveSocket
+		const mouseMoveSocket = new WebSocket(websocketUri("mouseMoveWebSocket"))
 		let lastPoint
 		let movement
 
@@ -208,10 +181,9 @@ const indexTmpl = `
 				y: touch.pageY - touch.target.offsetTop,
 			}
 		}
-		  
+		
 		function handleStart(evt) {
 			evt.preventDefault()
-			mouseMoveSocket = new WebSocket(websocketUri("mouseMove"))
 			var touch = evt.changedTouches[0]
 			movement = {x: 0, y: 0}
 			lastPoint = touchToPoint(touch)
@@ -219,7 +191,6 @@ const indexTmpl = `
 
 		function handleEnd(evt) {
 			evt.preventDefault()
-			mouseMoveSocket.close()
 			var touch = evt.changedTouches[0]
 			var currPoint = touchToPoint(touch)
 
