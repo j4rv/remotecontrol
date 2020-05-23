@@ -38,7 +38,13 @@ func printIPs() {
 		for _, addr := range addrs {
 			switch v := addr.(type) {
 			case *net.IPNet:
-				log.Println("IP Network:", v.IP)
+				switch v.IP.String() {
+				case "::1":
+				case "127.0.0.1":
+					continue
+				default:
+					log.Println("IP Network:", v.IP)
+				}
 			case *net.IPAddr:
 				log.Println("IP Address:", v.IP)
 			}
