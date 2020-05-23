@@ -1,7 +1,6 @@
 package main
 
 import (
-	"html/template"
 	"log"
 	"net"
 	"net/http"
@@ -65,12 +64,12 @@ func logRequest(handler http.Handler) http.Handler {
 
 // initIndex handles the root page
 func initIndex() {
-	tmpl := template.Must(template.New("index").Parse(indexTmpl))
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		err := tmpl.Execute(w, nil)
+		/*err := tmpl.Execute(w, nil)
 		if err != nil {
 			log.Print("Error while executing the template:", err)
-		}
+		}*/
+		w.Write([]byte(indexTmpl))
 	})
 }
 

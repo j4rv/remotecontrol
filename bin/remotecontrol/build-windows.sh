@@ -1,0 +1,1 @@
+env CGO_ENABLED=1 GOOS=windows go build -a -trimpath -ldflags '-extldflags "-static"' .
